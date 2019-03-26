@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "fmapper">
+	<resultMap type="map" id = "userMap">
+		<result column="USERID" property="userid"/>
+		<result column="USERPW" property="userpw"/>
+		<result column="USERNAME" property="username"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+	</resultMap>
+	<insert id = "insert">
+		INSERT INTO GOLOGIN(
+		USERID,
+		USERPW,
+		USERNAME,
+		PHONE,
+		EMAIL	
+		)
+		VALUES(
+			#{userid},
+			#{userpw},
+			#{username},
+			#{phone},
+			#{email}
+		)
+	</insert>
+	
+	<select id = "selectUser" resultMap="userMap">
+		SELECT 
+			USERID,
+			USERPW,
+			USERNAME
+			<if test = "phone != null and email != null">
+			,
+			PHONE,
+			EMAIL
+			</if>
+		FROM
+		GOLOGIN
+		WHERE
+		1=1
+		AND USERID = #{userid}
+		<if test = "phone != null and email != null">
+		OR PHONE = #{phone}
+		OR EMAIL = #{email}
+		</if>
+	</select>
+</mapper>

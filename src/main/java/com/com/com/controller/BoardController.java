@@ -30,7 +30,6 @@ public class BoardController
 	@Resource(name = "service")
 	private BoardServiceImpl boardService;
 	
-	/* 게시판 List */
 	@RequestMapping("list")
 	public String list(Model model, @RequestParam(required=false, defaultValue="1") int pageNum) 
 	{
@@ -47,14 +46,12 @@ public class BoardController
 		return "board/list";
 	}
 	
-	/*쓰기 및 열람 맵핑 */
 	@RequestMapping("writeView")
 	public String writeView()
 	{
 		return "board/writeView";
 	}
 	
-	/* 게시글 열람 및 조회수CNT*/
 	@RequestMapping("detail")
 	public String detail(@RequestParam Map<String, Object> seq, Model model)
 	{
@@ -65,7 +62,6 @@ public class BoardController
 	}
 	
 	
-	// 게시글 등록
 	@RequestMapping("insert")
 	public String insert(Model model , @RequestParam Map<String, Object> map) 
 	{
@@ -75,7 +71,6 @@ public class BoardController
 		return "redirect:list";
 	}
 	
-	// 게시글 수정
 	@RequestMapping("modify")
 	public String modify(@RequestParam Map<String, Object> map)
 	{
@@ -83,19 +78,17 @@ public class BoardController
 		return "redirect:list";
 	}
 
-	// 게시글 삭제
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	@RequestMapping("delete")
 	public String delete(Integer[] chkBox)
 	{
-		List<Integer> list = Arrays.asList(chkBox);// asList = Integer 로
+		List<Integer> list = Arrays.asList(chkBox);// asList = Integer
 		boardService.delete(list);
 
 		return "redirect:list";
 	}
 	
-	// 게시글 검색
 	@RequestMapping("search")
 	public String search(@RequestParam Map<String, Object> map, Model model) 
 	{
@@ -131,16 +124,13 @@ public class BoardController
 		String filePath = "\\resources\\upload\\";
 		
         Iterator<String> iterator = mRequest.getFileNames();
-        // parameter form에서 넘긴 file string name값들 Iterator로 만듬
         
         File file = new File(filePath);
-        // filePath 명의 File 인스턴스를 생성
 
         if(file.exists() == false)
         {
 
             file.mkdirs();
-            // 실제 filePath 명 file을 생성
 
         }
 
@@ -153,10 +143,8 @@ public class BoardController
             {
 
             	String fileName = System.currentTimeMillis() + "_" + mFile.getOriginalFilename();
-            	// System 클래스의 밀리 세컨드로 나타내지는 현재의 시간+"_"
 		
                 mFile.transferTo(new File(filePath + fileName));     
-                // MultipartFile(파일 업로드 처리를위한 인터페이스).interface의  transferTo(java.io.File dest)형태로 사용
             }
     
         }
